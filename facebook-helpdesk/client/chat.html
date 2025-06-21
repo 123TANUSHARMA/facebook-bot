@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Facebook Helpdesk</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Sidebar with conversations -->
+        <div class="chat-sidebar">
+            <div class="chat-header">
+                <h2>Conversations</h2>
+                <p id="userInfo">Loading...</p>
+            </div>
+            <div class="conversations-list" id="conversationsList">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main chat area -->
+        <div class="chat-main">
+            <div class="chat-conversation">
+                <div class="messages-area">
+                    <!-- Messages header -->
+                    <div class="messages-header">
+                        <div class="current-customer" id="currentCustomer">
+                            <h3>Select a conversation</h3>
+                            <p>Choose a conversation from the sidebar to start messaging</p>
+                        </div>
+                    </div>
+
+                    <!-- Messages container -->
+                    <div class="messages-container" id="messagesContainer">
+                        <div class="empty-state">
+                            <h3>No conversation selected</h3>
+                            <p>Select a conversation from the sidebar to view messages</p>
+                        </div>
+                    </div>
+
+                    <!-- Message input area -->
+                    <div class="message-input-area" id="messageInputArea" style="display: none;">
+                        <div class="message-input-container">
+                            <textarea 
+                                id="messageInput" 
+                                class="message-input" 
+                                placeholder="Type your message..."
+                                rows="1"
+                            ></textarea>
+                            <button class="send-button" id="sendButton" onclick="sendMessage()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer profile sidebar -->
+                <div class="customer-profile" id="customerProfile" style="display: none;">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profileAvatar">?</div>
+                        <div class="profile-name" id="profileName">Customer Name</div>
+                        <div class="profile-status" id="profileStatus">Active</div>
+                    </div>
+                    <div class="profile-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Customer ID</div>
+                            <div class="detail-value" id="customerId">-</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">First Message</div>
+                            <div class="detail-value" id="firstMessage">-</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Last Activity</div>
+                            <div class="detail-value" id="lastActivity">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation back to dashboard -->
+    <div style="position: fixed; top: 20px; left: 20px;">
+        <a href="dashboard.html" style="color: #667eea; text-decoration: none; font-weight: 500;">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+    <script src="js/chat.js"></script>
+    <script>
+        // Initialize chat interface
+        checkAuth();
+        loadConversations();
+        
+        // Auto-refresh conversations every 30 seconds
+        setInterval(loadConversations, 30000);
+
+        // Handle Enter key in message input
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Auto-resize message input
+        document.getElementById('messageInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+        });
+    </script>
+</body>
+</html>

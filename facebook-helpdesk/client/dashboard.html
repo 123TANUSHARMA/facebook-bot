@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Facebook Helpdesk</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="dashboard-header">
+        <div class="container">
+            <div class="dashboard-nav">
+                <h1>Facebook Helpdesk</h1>
+                <div class="user-info">
+                    <span class="user-name" id="userName">Loading...</span>
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-content">
+            <div class="facebook-section">
+                <h2>Facebook Page Connection</h2>
+                <div id="alertContainer"></div>
+                
+                <div id="connectionStatus" class="connection-status status-disconnected">
+                    <div id="loadingSpinner" class="loading" style="display: none;">
+                        <div class="spinner"></div>
+                    </div>
+                    <div id="statusContent">
+                        <p>No Facebook pages connected</p>
+                        <button class="btn-connect" onclick="connectFacebook()">Connect Facebook Page</button>
+                    </div>
+                </div>
+
+                <div id="connectedPages" class="connected-pages" style="display: none;">
+                    <h3>Connected Pages</h3>
+                    <div id="pagesList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script>
+        // Check authentication on page load
+        checkAuth();
+        loadPages();
+
+        // Handle Facebook OAuth callback
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if (code) {
+            handleFacebookCallback(code);
+        }
+    </script>
+</body>
+</html>
